@@ -1,0 +1,241 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons class="pl-23" slot="start">
+      <ion-menu-button auto-hide="false"
+        ><img src="/assets/icon/menu.svg"
+      /></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="fw-600 fs-24">{{globalVariable.appTitle}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div class="padding-25 div-background">
+    <div class="p-b-18">
+      <app-skeleton-loader
+        *ngIf="!loaded"
+        Cwidth="350"
+        Cheight="50"
+      ></app-skeleton-loader>
+      <ion-searchbar
+        *ngIf="loaded"
+        #mySearchbar
+        placeholder="Search your City "
+        debounce="1000"
+        autocomplete="off"
+        (ionChange)="getAllCityList($event)"
+      ></ion-searchbar>
+    </div>
+    <div class="listDiv">
+      <ion-list
+        *ngIf="allCityList && allCityResult && allCityResult.length > 0"
+        class="listPopup"
+      >
+        <ion-item
+          *ngFor="let cityname of allCityResult"
+          (click)="getWeatherWithCityName(cityname)"
+          >{{ cityname.LocalizedName }}
+        </ion-item>
+      </ion-list>
+    </div>
+    <ion-row class="p-b-18">
+      <app-skeleton-loader
+        *ngIf="!loaded"
+        Cwidth="350"
+        Cheight="200"
+      ></app-skeleton-loader>
+      <ion-card
+        *ngIf="loaded"
+        class="ion-no-padding ion-no-margin ion-card-main"
+      >
+        <ion-card-content class="ion-no-padding">
+          <ion-row>
+            <ion-col class="fw-600 fs-16 ion-no-padding">
+              <div>
+                <span>{{globalVariable.today}}</span>
+              </div>
+            </ion-col>
+            <ion-col class="fw-400 fs-12ion-no-padding ion-text-end">
+              <div class="ion-no-padding">
+                <span class="no-wrap">{{todaysDate}}</span>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-no-padding ion-text-center">
+              <span class="fw-500 fs-58"
+                >{{cityTemprature}}
+                <img class="degree-img" src="/assets/images/oC.svg"
+              /></span>
+            </ion-col>
+            <ion-col class="ion-text-end ion-no-padding">
+              <img
+                id="wicon"
+                class="icon-size"
+                src="{{iconSrcUrl}}"
+                alt="Weather icon"
+              />
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="col-12 ion-text-center ion-no-padding">
+              <ion-chip>
+                <img class="p-r-13" src="/assets/images/location.svg" />
+                <ion-label class="fw-400 fs-12 color-white"
+                  >{{currentCityName}}, {{currentCountryName}}</ion-label
+                >
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+    <ion-row class="p-b-18">
+      <ion-col>
+        <app-skeleton-loader
+          *ngIf="!loaded"
+          Cwidth="160"
+          Cheight="100"
+        ></app-skeleton-loader>
+
+        <ion-card
+          *ngIf="loaded"
+          class="ion-no-padding ion-no-margin ion-card-second"
+        >
+          <ion-card-content class="ion-no-padding">
+            <ion-row>
+              <ion-col class="ion-text-center ion-no-padding self-center">
+                <img src="/assets/images/humidity.svg" />
+              </ion-col>
+              <ion-col>
+                <div class="fw-700 fs-17">
+                  <span class="color-white">{{cityHumidity}}%</span>
+                </div>
+                <div>
+                  <span class="fw-400 fs-12 color-white"
+                    >{{globalVariable.Humidity}}</span
+                  >
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <app-skeleton-loader
+          *ngIf="!loaded"
+          Cwidth="160"
+          Cheight="100"
+        ></app-skeleton-loader>
+
+        <ion-card
+          *ngIf="loaded"
+          class="ion-no-padding ion-no-margin ion-card-second"
+        >
+          <ion-card-content class="ion-no-padding">
+            <ion-row>
+              <ion-col class="ion-text-center ion-no-padding self-center">
+                <img src="/assets/images/pressure.svg" />
+              </ion-col>
+              <ion-col>
+                <div class="fw-700 fs-17">
+                  <span class="color-white">{{citypressure}}Hpa</span>
+                </div>
+                <div>
+                  <span class="fw-400 fs-12 color-white"
+                    >{{globalVariable.pressure}}</span
+                  >
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <app-skeleton-loader
+          *ngIf="!loaded"
+          Cwidth="100"
+          Cheight="100"
+          circle="true"
+        ></app-skeleton-loader>
+        <ion-card
+          *ngIf="loaded"
+          class="ion-no-padding ion-no-margin card-future"
+        >
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <div class="fw-400 fs-24 ion-text-center">
+                  <span class="color-white">{{foreCastTempOne}}°C</span>
+                </div>
+                <div class="ion-text-center">
+                  <span class="fw-500 fs-14 color-white"
+                    >{{foreCastDateOne}}</span
+                  >
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <app-skeleton-loader
+          *ngIf="!loaded"
+          Cwidth="100"
+          Cheight="100"
+          circle="true"
+        ></app-skeleton-loader>
+        <ion-card
+          *ngIf="loaded"
+          class="ion-no-padding ion-no-margin card-future"
+        >
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <div class="fw-400 fs-24 ion-text-center">
+                  <span class="color-white">{{foreCastTempTwo}}°C</span>
+                </div>
+                <div class="ion-text-center">
+                  <span class="fw-500 fs-14 color-white"
+                    >{{foreCastDateTwo}}</span
+                  >
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <app-skeleton-loader
+          *ngIf="!loaded"
+          Cwidth="100"
+          Cheight="100"
+          circle="true"
+        ></app-skeleton-loader>
+
+        <ion-card
+          *ngIf="loaded"
+          class="ion-no-padding ion-no-margin card-future"
+        >
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <div class="fw-400 fs-24 ion-text-center">
+                  <span class="color-white">{{foreCastTempThree}}°C</span>
+                </div>
+                <div class="ion-text-center">
+                  <span class="fw-500 fs-14 color-white"
+                    >{{foreCastDateThree}}</span
+                  >
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

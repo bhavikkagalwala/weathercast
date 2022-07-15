@@ -1,0 +1,12 @@
+{
+  "name": "WeatherFor",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "proxies": [{
+    "path": "locations/v1/cities/",
+    "proxyUrl": "http://dataservice.accuweather.com/"
+}]
+}
+

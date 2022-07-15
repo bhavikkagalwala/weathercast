@@ -1,0 +1,29 @@
+
+.loader {
+    position: relative;
+    background-color: #1a1c49;
+    width: 200px;
+    height: 20px;
+    /* background: #efefee; */
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 4px;
+  
+  }
+  .loader::after {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    transform: translateX(-100%);
+   /* background: linear-gradient(90deg, transparent, #f1f1f1, transparent); */
+    background: linear-gradient(90deg, transparent, rgba(171, 168, 168, 0.166), transparent);
+    animation: loading 1s infinite;
+  }
+  
+  @keyframes loading {
+    100% {
+      transform: translateX(100%);
+    }
+  }
